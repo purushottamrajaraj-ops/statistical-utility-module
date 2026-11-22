@@ -15,6 +15,138 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
+# PROFESSIONAL DARK THEME CSS
+
+st.markdown("""
+<style>
+
+/* MAIN BACKGROUND */
+.stApp {
+    background: linear-gradient(135deg, #080f20, #101b35, #0b1224);
+    color: #f8fafc;
+}
+
+/* MAIN CONTENT */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* SIDEBAR */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #111c35, #080f20);
+    border-right: 1px solid #263b61;
+}
+
+/* SIDEBAR TEXT */
+[data-testid="stSidebar"] * {
+    color: #e2e8f0;
+}
+
+/* HEADINGS */
+h1, h2, h3 {
+    color: #f8fafc !important;
+    font-weight: 700 !important;
+}
+
+/* PARAGRAPHS */
+p, label {
+    color: #dbeafe !important;
+}
+
+/* INPUT BOXES */
+.stTextInput input {
+    background-color: #17243d !important;
+    color: white !important;
+    border: 1px solid #385783 !important;
+    border-radius: 10px !important;
+}
+
+/* INPUT FOCUS */
+.stTextInput input:focus {
+    border: 1px solid #38bdf8 !important;
+    box-shadow: 0 0 10px #2563eb !important;
+}
+
+/* BUTTONS */
+.stButton > button {
+    background: linear-gradient(90deg, #2563eb, #06b6d4);
+    color: white !important;
+    border: none;
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-weight: 700;
+    transition: 0.3s ease;
+}
+
+/* BUTTON HOVER */
+.stButton > button:hover {
+    background: linear-gradient(90deg, #1d4ed8, #0891b2);
+    box-shadow: 0 0 18px #2563eb;
+    transform: translateY(-2px);
+}
+
+/* RESULT METRIC CARDS */
+[data-testid="stMetric"] {
+    background: linear-gradient(145deg, #172944, #101d33);
+    border: 1px solid #29476f;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* METRIC LABEL */
+[data-testid="stMetricLabel"] {
+    color: #93c5fd !important;
+}
+
+/* METRIC VALUE */
+[data-testid="stMetricValue"] {
+    color: #38bdf8 !important;
+    font-weight: 700;
+}
+
+/* SUCCESS MESSAGE */
+[data-testid="stAlert"] {
+    border-radius: 12px;
+}
+
+/* DOWNLOAD BUTTON */
+.stDownloadButton > button {
+    background: linear-gradient(90deg, #0f766e, #059669);
+    color: white !important;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+/* LOGIN CARD */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: linear-gradient(145deg, #172944, #101a2e) !important;
+    border: 1px solid #29476f !important;
+    border-radius: 18px !important;
+    padding: 25px !important;
+    box-shadow: 0 0 25px rgba(37, 99, 235, 0.15);
+}
+
+/* DIVIDER */
+hr {
+    border-color: #29476f;
+}
+
+/* RESPONSIVE MOBILE DESIGN */
+@media (max-width: 768px) {
+    .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem !important;
+    }
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # Demo Login Details
 USERNAME = "student"
@@ -25,54 +157,91 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 
+
 # LOGIN PAGE
 def login_page():
-    if os.path.exists("logo.png"):
-     st.image("logo.png", width=180)
-
-    st.markdown(
-        "<h1 style='text-align:center;'>📊 STAT TOOL</h1>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p style='text-align:center;'>"
-        "Custom Statistical Utility Module"
-        "</p>",
-        unsafe_allow_html=True
-    )
 
     st.write("")
     st.write("")
+    st.write("")
 
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([1, 1.5, 1])
 
     with col2:
 
-        st.subheader("Login to Continue")
+        with st.container(border=True):
 
-        username = st.text_input("Username")
+            st.write("")
 
-        password = st.text_input(
-            "Password",
-            type="password"
-        )
+            if os.path.exists("logo.png"):
 
-        if st.button("LOGIN", use_container_width=True):
+                st.image(
+                    "logo.png",
+                    width=150
+                )
 
-            if username.strip() == USERNAME and password.strip() == PASSWORD:
+            st.markdown(
+                """
+                <h1 style="text-align:center; color:#38bdf8;">
+                    STAT TOOL
+                </h1>
+                <p style="text-align:center; color:#94a3b8;">
+                    CUSTOM STATISTICAL UTILITY MODULE
+                </p>
+                <hr>
+                """,
+                unsafe_allow_html=True
+            )
 
-                st.session_state.logged_in = True
-                st.rerun()
+            st.markdown(
+                "<h2 style='text-align:center;'>Welcome Back!</h2>",
+                unsafe_allow_html=True
+            )
 
-            else:
-                st.error("Invalid Username or Password")
+            st.markdown(
+                "<p style='text-align:center;'>Login to access your dashboard</p>",
+                unsafe_allow_html=True
+            )
 
-        st.info(
-            "Demo Username: student\n\n"
-            "Demo Password: 1234"
-        )
+            st.write("")
 
+            username = st.text_input(
+                "Username",
+                placeholder="Enter your username"
+            )
+
+            password = st.text_input(
+                "Password",
+                type="password",
+                placeholder="Enter your password"
+            )
+
+            st.write("")
+
+            if st.button("LOGIN", use_container_width=True):
+
+                if username.strip() == USERNAME and password.strip() == PASSWORD:
+
+                    st.session_state.logged_in = True
+                    st.rerun()
+
+                else:
+
+                    st.error("Invalid Username or Password")
+
+            st.info(
+                "Demo Username: student\n\n"
+                "Demo Password: 1234"
+            )
+
+            st.markdown(
+                """
+                <p style="text-align:center; color:#64748b; font-size:12px;">
+                    Statistical Analysis System
+                </p>
+                """,
+                unsafe_allow_html=True
+            )
 
 # MAIN DASHBOARD
 def dashboard():
