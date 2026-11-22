@@ -60,7 +60,7 @@ def login_page():
 
         if st.button("LOGIN", use_container_width=True):
 
-            if username == USERNAME and password == PASSWORD:
+            if username.strip() == USERNAME and password.strip() == PASSWORD:
 
                 st.session_state.logged_in = True
                 st.rerun()
