@@ -1,0 +1,7 @@
+# Custom Statistical Utility Module
+
+# Python standard libraries are used.
+# No external package installation is required.
+streamlit
+matplotlib
+reportlab
