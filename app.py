@@ -27,8 +27,8 @@ if "logged_in" not in st.session_state:
 
 # LOGIN PAGE
 def login_page():
-    if os.path.exists("assets/logo.png"):
-     st.image("assets/logo.png", width=180)
+    if os.path.exists("logo.png"):
+     st.image("logo.png", width=180)
 
     st.markdown(
         "<h1 style='text-align:center;'>📊 STAT TOOL</h1>",
@@ -76,8 +76,8 @@ def login_page():
 
 # MAIN DASHBOARD
 def dashboard():
-    if os.path.exists("assets/logo.png"):
-        st.image("assets/logo.png", width=180)
+    if os.path.exists("logo.png"):
+        st.image("logo.png", width=180)
 
     st.title("📊 Statistical Dashboard")
 
