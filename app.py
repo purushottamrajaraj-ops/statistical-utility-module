@@ -245,6 +245,9 @@ def login_page():
 
 # MAIN DASHBOARD
 def dashboard():
+        # CALCULATION HISTORY
+    if "calculation_history" not in st.session_state:
+        st.session_state.calculation_history = []
 
     # SIDEBAR DESIGN
     if os.path.exists("logo.png"):
@@ -256,10 +259,46 @@ def dashboard():
 
     st.sidebar.markdown("---")
 
-    st.sidebar.markdown("### Navigation")
+    st.sidebar.markdown("### 🧭 Navigation")
 
-    st.sidebar.info("📊 Statistical Dashboard")
+    st.sidebar.markdown(
+        """
+        <div style="
+            background:#172944;
+            padding:15px;
+            border-radius:12px;
+            border:1px solid #385783;
+            margin-bottom:10px;
+        ">
+            <p style="color:#38bdf8; font-weight:bold;">
+                📊 Statistical Dashboard
+            </p>
+            <p style="color:#94a3b8; font-size:13px;">
+                Calculate and analyze your data
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
+    st.sidebar.markdown(
+        """
+        <div style="
+            background:#172944;
+            padding:15px;
+            border-radius:12px;
+            border:1px solid #385783;
+        ">
+            <p style="color:#38bdf8; font-weight:bold;">
+                ℹ️ About Project
+            </p>
+            <p style="color:#94a3b8; font-size:13px;">
+                Learn about STAT TOOL and its features
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     st.sidebar.markdown("---")
 
     if st.sidebar.button("🚪 LOGOUT", use_container_width=True):
@@ -279,10 +318,50 @@ def dashboard():
         """,
         unsafe_allow_html=True
     )
+    # ABOUT PROJECT SECTION
+
+    with st.expander("ℹ️ About STAT TOOL - Project Information"):
+
+        st.markdown("### 📊 Custom Statistical Utility Module")
+
+        st.write(
+            "STAT TOOL is a Python-based statistical analysis application "
+            "designed to perform calculations and visualize numerical data."
+        )
+
+        st.markdown("### ✨ Key Features")
+
+        st.markdown("""
+        - Mean, Median and Mode Calculation
+        - Variance and Standard Deviation
+        - Quartile Analysis (Q1, Q2, Q3)
+        - Interquartile Range (IQR)
+        - Bar Graph and Pie Chart Visualization
+        - CSV and PDF Export
+        - Statistical Data Analysis
+        """)
+
+        st.markdown("### 🛠️ Technologies Used")
+
+        st.write("Python, Streamlit, Matplotlib and ReportLab")
+
+        st.markdown("### 🎓 Project Details")
+
+        st.write("Course: B.Tech CSE")
+        st.write("Semester: 3rd Semester")
+        st.write("University: Brainware University, Kolkata")
+        st.write("Developer: Purushottam")
 
     st.markdown("---")
 
-    # DATA INPUT SECTION
+        # DATA INPUT SECTION
+
+    def load_sample_data():
+        st.session_state.main_data_input = "10 20 30 40 50 60"
+
+    def clear_input():
+        st.session_state.main_data_input = ""
+
     with st.container(border=True):
 
         st.subheader("📥 Enter Your Data")
@@ -293,10 +372,27 @@ def dashboard():
 
         user_input = st.text_input(
             "Your Numerical Data",
-            placeholder="Example: 10 20 30 40 50"
+            placeholder="Example: 10 20 30 40 50",
+            key="main_data_input"
         )
 
-        st.caption("Example: 10 20 30 40 50 60")
+        st.caption("💡 Enter numbers separated by spaces.")
+
+        sample_col, clear_col = st.columns(2)
+
+        with sample_col:
+            st.button(
+                "📝 LOAD SAMPLE DATA",
+                use_container_width=True,
+                on_click=load_sample_data
+            )
+
+        with clear_col:
+            st.button(
+                "🗑️ CLEAR INPUT",
+                use_container_width=True,
+                on_click=clear_input
+            )
 
         calculate_clicked = st.button(
             "🚀 CALCULATE RESULTS",
@@ -326,6 +422,20 @@ def dashboard():
                 std = sm.calculate_std(numbers)
 
                 q1, q2, q3 = sm.calculate_quartiles(numbers)
+                # SAVE CALCULATION HISTORY
+
+                history_record = {
+                    "Input Data": user_input,
+                    "Mean": round(mean, 2),
+                    "Median": median,
+                    "Mode": mode_display if "mode_display" in locals() else str(mode),
+                    "Variance": round(variance, 2),
+                    "Standard Deviation": round(std, 2)
+                }
+
+                st.session_state.calculation_history.append(
+                    history_record
+                )
 
                 # PREMIUM STATISTICAL RESULT CARDS
 
@@ -518,6 +628,30 @@ def dashboard():
             values = list(frequency.values())
 
             chart_col1, chart_col2 = st.columns(2)
+            # CALCULATION HISTORY SECTION
+
+            st.markdown("---")
+
+            st.markdown(
+                    "<h2 style='color:#38bdf8;'>📜 Calculation History</h2>",
+                    unsafe_allow_html=True
+                )
+
+            with st.expander("View Previous Calculations"):
+
+                    if st.session_state.calculation_history:
+
+                        st.dataframe(
+                            st.session_state.calculation_history,
+                            use_container_width=True
+                        )
+
+                        if st.button("🗑️ CLEAR HISTORY"):
+                            st.session_state.calculation_history.clear()
+                            st.rerun()
+
+                    else:
+                        st.info("No calculation history available.")
 
             # BAR GRAPH
             with chart_col1:
