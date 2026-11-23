@@ -245,32 +245,65 @@ def login_page():
 
 # MAIN DASHBOARD
 def dashboard():
+
+    # SIDEBAR DESIGN
     if os.path.exists("logo.png"):
-        st.image("logo.png", width=180)
+        st.sidebar.image("logo.png", width=150)
 
-    st.title("📊 Statistical Dashboard")
+    st.sidebar.title("STAT TOOL")
 
-    st.write(
-        "Welcome to Custom Statistical Utility Module"
-    )
+    st.sidebar.caption("Statistical Analysis System")
 
-    if st.sidebar.button("Logout"):
+    st.sidebar.markdown("---")
+
+    st.sidebar.markdown("### Navigation")
+
+    st.sidebar.info("📊 Statistical Dashboard")
+
+    st.sidebar.markdown("---")
+
+    if st.sidebar.button("🚪 LOGOUT", use_container_width=True):
 
         st.session_state.logged_in = False
         st.rerun()
 
-    st.sidebar.title("STAT TOOL")
-
-    st.sidebar.write("Statistical Analysis System")
-
-    st.header("Enter Your Data")
-
-    user_input = st.text_input(
-        "Enter numbers separated by spaces",
-        placeholder="Example: 10 20 30 40 50"
+    # DASHBOARD HEADER
+    st.markdown(
+        """
+        <h1 style="color:#38bdf8;">
+            📊 Statistical Dashboard
+        </h1>
+        <p style="color:#94a3b8; font-size:17px;">
+            Analyze your numerical data with powerful statistical tools.
+        </p>
+        """,
+        unsafe_allow_html=True
     )
 
-    if st.button("CALCULATE", use_container_width=True):
+    st.markdown("---")
+
+    # DATA INPUT SECTION
+    with st.container(border=True):
+
+        st.subheader("📥 Enter Your Data")
+
+        st.write(
+            "Enter numbers separated by spaces to calculate statistical measures."
+        )
+
+        user_input = st.text_input(
+            "Your Numerical Data",
+            placeholder="Example: 10 20 30 40 50"
+        )
+
+        st.caption("Example: 10 20 30 40 50 60")
+
+        calculate_clicked = st.button(
+            "🚀 CALCULATE RESULTS",
+            use_container_width=True
+        )
+
+    if calculate_clicked:
 
         try:
 
