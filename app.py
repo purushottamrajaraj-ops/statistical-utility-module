@@ -608,3 +608,39 @@ if st.session_state.logged_in:
 else:
 
     login_page()
+
+# PROFESSIONAL FOOTER
+
+st.markdown("---")
+
+st.markdown(
+    "<h2 style='text-align: center;'>📊 STAT TOOL</h2>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<p style='text-align: center;'>Custom Statistical Utility Module</p>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<p style='text-align: center;'>B.Tech CSE | 3rd Semester</p>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<p style='text-align: center;'>Brainware University, Kolkata</p>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<h4 style='text-align: center; color: #38bdf8;'>Developed By: Purushottam</h4>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<p style='text-align: center; color: #64748b;'>© 2026 STAT TOOL | Statistical Analysis System</p>",
+    unsafe_allow_html=True
+)
+
+st.markdown("---")
