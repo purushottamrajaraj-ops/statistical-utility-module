@@ -327,31 +327,62 @@ def dashboard():
 
                 q1, q2, q3 = sm.calculate_quartiles(numbers)
 
-                st.subheader("Statistical Results")
+                # PREMIUM STATISTICAL RESULT CARDS
 
+                st.markdown("---")
+
+                st.markdown(
+                    """
+                    <h2 style="color:#38bdf8;">
+                        📊 Statistical Results
+                    </h2>
+                    <p style="color:#94a3b8;">
+                       Overview of calculated statistical measures
+                    </p>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                mode_display = (
+                    ", ".join(map(str, mode))
+                    if isinstance(mode, (list, tuple, set))
+                    else str(mode)
+                )
+
+                # FIRST ROW
                 col1, col2, col3 = st.columns(3)
 
-                col1.metric("Mean", round(mean, 2))
-                col2.metric("Median", median)
-                col3.write("**Mode**")
-                col3.write(mode)
+                col1.metric("📈 Mean", round(mean, 2))
+                col2.metric("📊 Median", median)
+                col3.metric("🔁 Mode", mode_display)
 
+                # SECOND ROW
                 col4, col5, col6 = st.columns(3)
 
-                col4.metric("Variance", round(variance, 2))
-                col5.metric("Standard Deviation", round(std, 2))
-                col6.metric("Range", max(numbers) - min(numbers))
+                col4.metric("📉 Variance", round(variance, 2))
+                col5.metric("📐 Standard Deviation", round(std, 2))
+                col6.metric("↔️ Range", max(numbers) - min(numbers))
 
-                st.subheader("Quartile Analysis")
+                # QUARTILE ANALYSIS
+                st.markdown("---")
+
+                st.markdown(
+                   """
+                   <h2 style="color:#38bdf8;">
+                       📦 Quartile Analysis
+                  </h2>
+                   """,
+                   unsafe_allow_html=True
+                )
 
                 qcol1, qcol2, qcol3 = st.columns(3)
 
-                qcol1.metric("Q1", q1)
-                qcol2.metric("Q2", q2)
-                qcol3.metric("Q3", q3)
+                qcol1.metric("Q1 - First Quartile", q1)
+                qcol2.metric("Q2 - Second Quartile", q2)
+                qcol3.metric("Q3 - Third Quartile", q3)
 
                 st.metric(
-                    "Interquartile Range",
+                    "📏 Interquartile Range (IQR)",
                     sm.calculate_iqr(numbers)
                 )
                 # CSV DOWNLOAD
@@ -465,54 +496,101 @@ def dashboard():
                     sorted(numbers, reverse=True)
                 )
 
-                st.subheader("Data Visualization")
+                            # PROFESSIONAL DATA VISUALIZATION
 
-                frequency = Counter(numbers)
+            st.markdown("---")
 
-                labels = list(frequency.keys())
-                values = list(frequency.values())
+            st.markdown(
+                """
+                <h2 style="color:#38bdf8;">
+                    📊 Data Visualization
+                </h2>
+                <p style="color:#94a3b8;">
+                    Visual representation of your numerical data
+                </p>
+                """,
+                unsafe_allow_html=True
+            )
 
-                chart_col1, chart_col2 = st.columns(2)
+            frequency = Counter(numbers)
 
-                # BAR GRAPH
-                with chart_col1:
+            labels = list(frequency.keys())
+            values = list(frequency.values())
 
-                   st.write("### Bar Graph")
+            chart_col1, chart_col2 = st.columns(2)
 
-                   fig1, ax1 = plt.subplots()
+            # BAR GRAPH
+            with chart_col1:
+                with st.container(border=True):
+                    st.markdown("### 📊 Bar Graph")
 
-                   ax1.bar(
-                       [str(x) for x in labels],
-                       values
-                   )
+                    fig1, ax1 = plt.subplots(
+                        figsize=(6, 4),
+                        facecolor="#111c32"
+                    )
 
-                   ax1.set_xlabel("Values")
-                   ax1.set_ylabel("Frequency")
-                   ax1.set_title("Data Frequency")
+                    ax1.set_facecolor("#111c32")
 
-                   st.pyplot(fig1)
+                    bars = ax1.bar(
+                        [str(x) for x in labels],
+                        values,
+                        color="#3B82F6",
+                        edgecolor="#38BDF8",
+                        linewidth=1.5
+                    )
 
-                   plt.close(fig1)
+                    ax1.set_xlabel("Values", color="white")
+                    ax1.set_ylabel("Frequency", color="white")
+                    ax1.set_title(
+                        "Data Frequency",
+                        color="#38BDF8",
+                        fontsize=14
+                    )
 
+                    ax1.tick_params(colors="white")
+                    ax1.grid(
+                        axis="y",
+                        linestyle="--",
+                        alpha=0.2
+                    )
 
-                # PIE CHART
-                with chart_col2:
+                    for spine in ax1.spines.values():
+                        spine.set_color("#385783")
 
-                    st.write("### Pie Chart")
+                    st.pyplot(fig1)
+                    plt.close(fig1)
 
-                    fig2, ax2 = plt.subplots()
+            # PIE CHART
+            with chart_col2:
+                with st.container(border=True):
+                    st.markdown("### 🥧 Pie Chart")
+
+                    fig2, ax2 = plt.subplots(
+                        figsize=(6, 4),
+                        facecolor="#111c32"
+                    )
+
+                    ax2.set_facecolor("#111c32")
 
                     ax2.pie(
                         values,
                         labels=[str(x) for x in labels],
                         autopct="%1.1f%%",
-                        startangle=90
-                   )
+                        startangle=90,
+                        textprops={"color": "white"},
+                        wedgeprops={
+                            "edgecolor": "#111c32",
+                            "linewidth": 2
+                        }
+                    )
 
-                    ax2.set_title("Data Distribution")
+                    ax2.set_title(
+                        "Data Distribution",
+                        color="#38BDF8",
+                        fontsize=14
+                    )
 
                     st.pyplot(fig2)
-
                     plt.close(fig2)
 
         except ValueError:
